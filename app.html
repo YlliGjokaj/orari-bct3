@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orari i Studentëve - BCT</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">Orari BCT</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#schedule">Orari</a></li>
+      <li><a href="#add">Shto Lëndë</a></li>
+      <li><a href="#study-tips">Këshilla Studimi</a></li>
+      <li><a href="#statistics">Statistika</a></li>
+      <li><a href="#about">Rreth Nesh</a></li>
+    </ul>
+  </nav>
+
+   <!-- Butoni në navbar ose diku për ta hapur modalin -->
+    <div class="auth-modal">
+      <button id="open-auth-modal" style="text-align:center 12px 24px; background: linear-gradient(135deg, #2193b0, #6dd5ed); border: none; border-radius: 8px; color: white; font-weight: bold; font-size: 15px; cursor: pointer; box-shadow: 0 6px 12px rgba(0,0,0,0.15); transition: transform 0.2s ease, box-shadow 0.2s ease;"> Hyr ose Regjistrohu</button >
+    </div>
+
+
+<!-- Modal Popup -->
+<div class="auth-modal" id="auth-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:9999;">
+  <div style="background:white;padding:2rem;border-radius:12px;width:90%;max-width:400px;text-align:center;position:relative;">
+    <h2>Hyr / Regjistrohu</h2>
+    
+    <!-- LOGIN FORM -->
+    <form id="login-form">
+      <input type="email" id="login-email" placeholder="Email" required style="width:90%;margin-bottom:1rem;padding:0.6rem;"><br>
+      <input type="password" id="login-password" placeholder="Fjalëkalimi" required style="width:90%;margin-bottom:1rem;padding:0.6rem;"><br>
+      <button type="submit" style="padding:0.6rem 1.2rem;background:#1e6091;color:white;border:none;border-radius:6px;">Hyr</button>
+    </form>
+
+    <hr style="margin:1.5rem 0;">
+
+    <!-- REGISTER FORM -->
+    <form id="register-form">
+      <input type="text" id="reg-name" placeholder="Emri" required style="width:90%;margin-bottom:1rem;padding:0.6rem;"><br>
+      <input type="email" id="reg-email" placeholder="Email" required style="width:90%;margin-bottom:1rem;padding:0.6rem;"><br>
+      <input type="password" id="reg-password" placeholder="Fjalëkalimi" required style="width:90%;margin-bottom:1rem;padding:0.6rem;"><br>
+      <button type="submit" style="padding:0.6rem 1.2rem;background:#168aad;color:white;border:none;border-radius:6px;">Regjistrohu</button>
+    </form>
+
+    <button id="close-auth" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:20px;color:#e63946;cursor:pointer;">×</button>
+  </div>
+</div>
+
+  <header id="home">
+    <h1>Mirë se erdhët në Menaxhimin e Orarit të BCT!</h1>
+    <p>British College of Technology - Organizoni kohën tuaj akademike me lehtësi! </p>
+    <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e" alt="Studentët në BCT" class="header-img">
+  </header>
+
+  <main>
+    <section id="add" class="form-section">
+      <h2>Vendos Orarin e Lëndëve</h2>
+
+  <p style="background:#e0f7fa;padding:10px;border-radius:8px;color:#006064;">
+    <strong>Info:</strong> Mund të rezervoni vetëm orare midis <strong>15:00 dhe 21:00</strong>. Ju lutem zgjidhni një nga oraret e mëposhtme!
+  </p>
+
+  <form id="subject-form">
+    <input type="text" id="subject" placeholder="Lënda" required>
+    <input type="text" id="professor" placeholder="Profesori" required>
+    <select id="day" required>
+      <option value="">Zgjedh ditën</option>
+      <option value="E Hënë">E Hënë</option>
+      <option value="E Martë">E Martë</option>
+      <option value="E Mërkurë">E Mërkurë</option>
+      <option value="E Enjte">E Enjte</option>
+      <option value="E Premte">E Premte</option>
+    </select>
+    <select id="time" required>
+      <option value="">Zgjedh orarin</option>
+      <option value="15:00">15:00 - 16:00</option>
+      <option value="16:00">16:00 - 17:00</option>
+      <option value="17:00">17:00 - 18:00</option>
+      <option value="18:00">18:00 - 19:00</option>
+      <option value="19:00">19:00 - 20:00</option>
+      <option value="20:00">20:00 - 21:00</option>
+    </select>
+    <button type="submit">Vendos Orarin</button>
+  </form>
+
+  <table id="schedule-table" border="1" style="margin-top:20px;">
+    <thead>
+      <tr>
+        <th>Dita</th>
+        <th>Lënda</th>
+        <th>Profesori</th>
+        <th>Ora</th>
+        <th>Veprime</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+ 
+<!-- Chat toggle button -->
+<button id="chat-toggle"></button>
+
+<!-- Chat Box -->
+<div id="chat-box">
+  <div style="background:#1e6091;color:white;padding:10px;text-align:center;font-weight:bold;position:relative;">
+     Asistent AI
+    <button id="close-chat" style="position:absolute;right:10px;top:5px;background:none;border:none;color:white;font-size:18px;cursor:pointer">×</button>
+  </div>
+  <div id="chat-messages"></div>
+  <form id="chat-form">
+    <input type="text" id="chat-input" placeholder="Pyet asistentin..." required>
+    <button type="submit"></button>
+  </form>
+</div>
+
+  
+
+  <div id="stats" style="margin-top:20px;font-weight:bold;"></div>
+    </section>
+
+    <section id="study-tips" class="tips-section">
+      <h2>Këshilla për Studim Efektiv</h2>
+      <ul>
+        <li>Përcakto qëllime ditore për studim.</li>
+        <li>Pusho çdo 45 minuta për të rifreskuar trurin.</li>
+        <li>Përdor metoda të ndryshme si mapa mendore ose kartela.</li>
+        <li>Shmang shpërqendrimet gjatë studimit.</li>
+        <li>Ripërsërit materialin rregullisht.</li>
+      </ul>
+    </section>
+
+    
+    <section id="about" class="about-section">
+      <h2>Rreth Aplikacionit</h2>
+      <p>Ky aplikacion është zhvilluar në kuadër të Kolegjit British College of Technology (BCT), me qëllim që studentët të menaxhojnë më mirë orarin e tyre akademik.</p>
+      <p>Mbështetur nga profesorët: Egzon Salihu, Gentiana Blakaj, Muzafer Shala dhe Flaka Januzi.</p>
+      <p>Versioni 1.0 | Zhvilluar me dashuri nga studentët e BCT!</p>
+      <p>Misioni ynë është të ndihmojmë çdo student të arrijë suksesin akademik duke përdorur teknologjinë në mënyrë inteligjente.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 British College of Technology | Të gjitha të drejtat e rezervuara</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
