@@ -53,7 +53,9 @@ def sugjero_orar():
         'ditaSugjeruar': alternativa[0] if alternativa else None
     })
 
-# Nise app-in
+import os
+
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Render e cakton PORT si variabël mjedisi
+    app.run(host='0.0.0.0', port=port)
