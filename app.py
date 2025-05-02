@@ -53,6 +53,47 @@ def sugjero_orar():
         'ditaSugjeruar': alternativa[0] if alternativa else None
     })
 
+
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.json
+    name = data.get('name')
+    email = data.get('email')
+    password = data.get('password')
+
+    try:
+        conn = sqlite3.connect('schedule.db')
+        c = conn.cursor()
+        c.execute('INSERT INTO users (name, email, password) VALUES (?, ?, ?)', (name, email, password))
+        conn.commit()
+        conn.close()
+        return jsonify({'message': 'User registered successfully'}), 201
+    except sqlite3.IntegrityError:
+        return jsonify({'error': 'Email already exists'}), 409
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+
+    conn = sqlite3.connect('schedule.db')
+    c = conn.cursor()
+    c.execute('SELECT name, password FROM users WHERE email=?', (email,))
+    result = c.fetchone()
+    conn.close()
+
+    if result:
+        name, saved_password = result
+        if password == saved_password:
+            return jsonify({'message': 'Login successful', 'name': name})
+        else:
+            return jsonify({'error': 'Password is incorrect'}), 401
+    else:
+        return jsonify({'error': 'Email not found'}), 401
+
+
 import os
 
 if __name__ == '__main__':
