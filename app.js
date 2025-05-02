@@ -70,6 +70,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('register-form').addEventListener('submit', function (e) {
     e.preventDefault();
+  
     const name = document.getElementById('reg-name').value.trim();
     const email = document.getElementById('reg-email').value.trim();
     const password = document.getElementById('reg-password').value.trim();
@@ -84,17 +85,21 @@ window.addEventListener('DOMContentLoaded', () => {
         alert("Regjistrimi u krye me sukses! Tani mund të hyni.");
         authModal.style.display = 'none';
       } else if (res.status === 409) {
-        alert("Ky email është regjistruar më parë!");
+        alert("Ky email ekziston tashmë. Provo një tjetër.");
       } else {
         alert("Gabim gjatë regjistrimit.");
       }
+    })
+    .catch(err => {
+      console.error("Gabim me kërkesën e regjistrimit:", err);
+      alert("Gabim në lidhje me serverin.");
     });
   });
 
   
- 
   document.getElementById('login-form').addEventListener('submit', function (e) {
     e.preventDefault();
+  
     const email = document.getElementById('login-email').value.trim();
     const password = document.getElementById('login-password').value.trim();
   
@@ -109,13 +114,15 @@ window.addEventListener('DOMContentLoaded', () => {
         alert(`Mirë se erdhe ${data.name}!`);
         authModal.style.display = 'none';
       } else {
-        alert(data.error || "Gabim gjatë login-it");
+        alert(data.error || "Email ose fjalëkalim i pasaktë.");
       }
+    })
+    .catch(err => {
+      console.error("Gabim gjatë login-it:", err);
+      alert("Gabim në lidhje me serverin.");
     });
   });
   
-
-
 });
 
 const chatToggle = document.getElementById('chat-toggle');
@@ -142,7 +149,7 @@ const chatToggle = document.getElementById('chat-toggle');
       if (!msg) return;
 
       const userDiv = document.createElement('div');
-      userDiv.innerText = `💭 ${msg}`;
+      userDiv.innerText = ` ${msg}`;
       userDiv.style.cssText = 'margin-bottom:10px;background:#f1f1f1;padding:8px;border-radius:6px;';
       chatMessages.appendChild(userDiv);
 
