@@ -68,19 +68,54 @@ window.addEventListener('DOMContentLoaded', () => {
     authModal.style.display = 'none';
   });
 
+  document.getElementById('register-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const name = document.getElementById('reg-name').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const password = document.getElementById('reg-password').value.trim();
+  
+    fetch('/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password })
+    })
+    .then(res => {
+      if (res.status === 201) {
+        alert("Regjistrimi u krye me sukses! Tani mund të hyni.");
+        authModal.style.display = 'none';
+      } else if (res.status === 409) {
+        alert("Ky email është regjistruar më parë!");
+      } else {
+        alert("Gabim gjatë regjistrimit.");
+      }
+    });
+  });
+
+  
+ 
   document.getElementById('login-form').addEventListener('submit', function (e) {
     e.preventDefault();
     const email = document.getElementById('login-email').value.trim();
     const password = document.getElementById('login-password').value.trim();
-    const user = JSON.parse(localStorage.getItem('user'));
-
-    if (user && user.email === email && user.password === password) {
-      alert(`Mirë se erdhe ${user.name}!`);
-      authModal.style.display = 'none';
-    } else {
-      alert('Email ose fjalëkalim i pasaktë!');
-    }
+  
+    fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.name) {
+        alert(`Mirë se erdhe ${data.name}!`);
+        authModal.style.display = 'none';
+      } else {
+        alert(data.error || "Gabim gjatë login-it");
+      }
+    });
   });
+  
+
+
 });
 
 const chatToggle = document.getElementById('chat-toggle');
@@ -107,7 +142,7 @@ const chatToggle = document.getElementById('chat-toggle');
       if (!msg) return;
 
       const userDiv = document.createElement('div');
-      userDiv.innerText = ` ${msg}`;
+      userDiv.innerText = `💭 ${msg}`;
       userDiv.style.cssText = 'margin-bottom:10px;background:#f1f1f1;padding:8px;border-radius:6px;';
       chatMessages.appendChild(userDiv);
 
